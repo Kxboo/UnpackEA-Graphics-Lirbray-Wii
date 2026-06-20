@@ -51,54 +51,11 @@ This project bridges the gap between legacy console game assets and modern tooli
 
 ---
 
-## Parser & Terrain Versions
-
-The terrain and geometry parser evolved through several versions, each addressing accuracy issues discovered through deeper reverse-engineering of the EAGL binary format.
+## Version History
 
 ---
 
-### Parser v4 — GX Scan Window Fix
-
-**Key fix:** Corrected a critical mesh boundary bug in the GX display list scanner.
-
-Previously, the GX scan window was bounded by `vtx_count * stride + 2048` — an estimate that routinely overran into adjacent meshes' float and byte data. Embedded `0x98` bytes in that neighboring data were misread as GX triangle-strip headers, producing spurious triangles with out-of-range normal indices. This manifested as visible **mesh tearing and corrupted faces** on complex geometry.
-
-The fix bounds the scan window by the next mesh's actual position-array pointer instead. Additionally, descriptors are now **sorted by their pos-array pointer** before GX boundaries are computed, ensuring correct ordering regardless of descriptor discovery order. The `_parse_mesh` function now accepts an explicit `gx_end` argument rather than estimating it from the descriptor's vertex count field.
-
----
-
-### Parser v6 — Layout C: Track & Terrain Geometry
-
-**New support:** `Layout C` — identified by `byte[0] == 0x02` — covers track and terrain geometry files such as *TestTrackforTodd*.
-
-Layout C differs from Layouts A and B in several important ways:
-
-- The descriptor contains a **non-aligned reloc at `desc+0x09`** that points directly to the GX display list, rather than deriving the GX start from the UV array end.
-- The `ptr_pos`, `ptr_norm`, and `ptr_uv` slots sit at the same offsets as Layout A (`+0x34` / `+0x3c` / `+0x44`), but **array counts are derived from pointer gaps** rather than being stored in the descriptor — the descriptor's count fields hold unrelated data in this layout.
-- Normal stride is **4 bytes** (`s8×3` + 1 pad byte) instead of the 6-byte stride used in Layouts A/B.
-- The GX end boundary is still determined by the next descriptor's `ptr_pos`.
-
-**Detection** requires `byte[0] == 0x02`, a non-aligned reloc at `desc+0x09` pointing to a plausible GX address (greater than `ptr_uv`), and the standard `+0x34` / `+0x3c` / `+0x44` reloc triple.
-
----
-
-### Parser v7 — Data-Driven Layout Detection
-
-**Architecture overhaul:** Layout definitions and detection logic were extracted from the parser into `eagl_layouts.json`.
-
-Each layout now carries a list of `signature_checks` — supporting check types: `magic`, `reloc_exists`, `reloc_order`, `count_range`, and `reloc_absent`. Detection no longer performs a hard magic-byte dictionary lookup. Instead, every defined layout is **scored against every candidate descriptor offset**, and the highest-scoring layout wins if it clears a minimum score threshold (`MIN_SCORE`) and leads the runner-up by at least a defined margin (`MARGIN`).
-
-This scoring-based approach makes it straightforward to add support for new layouts by editing JSON alone, with no changes to parser code.
-
----
-
-## In Development — Character Export
-
-Character model extraction is actively being developed. Each iteration improves mesh accuracy, UV reconstruction, and geometry fidelity.
-
----
-
-### Version 9 *(Current)*
+### Version 9 *(Current — Character Models)*
 <p align="center">
   <img src="https://github.com/user-attachments/assets/7c32c93f-dca1-4447-80a9-31ce72376ced" width="80%" />
 </p>
@@ -109,7 +66,7 @@ Continued refinement of character geometry extraction. Builds on the UV and norm
 <details>
 <summary>Previous Versions</summary>
 
-### Version 8
+### Version 8 *(Character Models)*
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/99add145-d321-42a0-bb0f-025e8cae6fbf" width="49%" />
@@ -120,23 +77,35 @@ Improved UV mapping reconstruction and normal data handling for character meshes
 
 ---
 
-### Version 7
+### Version 7 *(Character Models)*
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d6015233-1fd4-4586-97f6-2b437e131764" width="80%" />
 </p>
 
-First version to focus specifically on character model extraction, leveraging the data-driven layout detection system introduced in the parser rewrite. Initial geometry reconstruction with basic UV support.
+First version to focus specifically on character model extraction, leveraging the data-driven layout detection system introduced in the parser rewrite (v6/v7). Initial geometry reconstruction with basic UV support.
 
 ---
 
-### Version 6
+### Version 6 *(Parser — Data-Driven Layout Detection + Layout C)*
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0696b5ae-ec83-47bb-abde-2701ef331e9d" width="80%" />
 </p>
 
-Final terrain-focused parser version before the character model work began. Introduced Layout C support for track/terrain geometry and the `eagl_layouts.json` scoring system.
+Two major advances landed in this version:
+
+**Layout C support** (`byte[0] == 0x02`) — covers track and terrain geometry such as *TestTrackforTodd*. Unlike Layouts A/B, Layout C has a non-aligned reloc at `desc+0x09` that points directly to the GX display list rather than deriving the GX start from the UV array end. Array counts are derived from pointer gaps instead of stored fields (the descriptor's count fields hold unrelated data in this layout), and the normal stride is 4 bytes (`s8×3` + 1 pad byte) instead of 6. Detection requires `byte[0] == 0x02`, the non-aligned reloc at `+0x09` pointing past `ptr_uv`, and the standard `+0x34` / `+0x3c` / `+0x44` reloc triple.
+
+**Data-driven layout detection** — Layout definitions were extracted from the parser into `eagl_layouts.json`. Each layout carries a list of `signature_checks` (`magic`, `reloc_exists`, `reloc_order`, `count_range`, `reloc_absent`). Rather than a hard magic-byte lookup, every layout is now **scored against every candidate descriptor offset**, and the winner is chosen if it clears a minimum score threshold and leads the runner-up by at least a defined margin. Adding support for a new layout no longer requires touching parser code — just edit the JSON.
+
+---
+
+### Version 4 *(Parser — GX Scan Window Fix)*
+
+Critical fix for a mesh boundary bug in the GX display list scanner. The old scan window was bounded by `vtx_count * stride + 2048` — an estimate that routinely overran into adjacent meshes' float and byte data. Embedded `0x98` bytes in that neighboring data were misread as GX triangle-strip headers, producing spurious triangles with out-of-range normal indices, visible as **mesh tearing and corrupted faces**.
+
+The fix bounds the scan window by the **next mesh's actual position-array pointer** instead. Descriptors are now also sorted by their pos-array pointer before GX boundaries are computed, ensuring correct ordering regardless of descriptor discovery order. `_parse_mesh` now accepts an explicit `gx_end` argument rather than estimating it from the descriptor's vertex count field.
 
 </details>
 
