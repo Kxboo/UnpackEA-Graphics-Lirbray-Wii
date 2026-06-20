@@ -28,27 +28,25 @@ This project bridges the gap between legacy console game assets and modern tooli
 <img width="2112" height="1139" alt="Screenshot 2026-06-19 222532" src="https://github.com/user-attachments/assets/ad835815-c3ff-4c4c-8bd2-f6ef54409592" />
 
 ### Terrain & World Geometry
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/ea0c8419-4577-46d1-a399-42ae9b2b9741" width="49%" />
-  <img src="https://github.com/user-attachments/assets/d2b48cc6-6ffa-4a23-9b26-b99523091775" width="49%" />
-</p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/685c1258-28e8-4701-9211-1a41e5e1690e" width="49%" />
-  <img src="https://github.com/user-attachments/assets/a849cbdc-e127-4911-b255-df8b6879ba48" width="49%" />
+  <img src="https://github.com/user-attachments/assets/35a0fdb1-4799-4cb2-8f8e-f9424e142147" width="49%" />
 </p>
 
 ### 3D Model Extraction
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/71defffe-eb6c-43ff-8fe5-a15fedbabbac" width="49%" />
-  <img src="https://github.com/user-attachments/assets/35a0fdb1-4799-4cb2-8f8e-f9424e142147" width="49%" />
+  <img src="https://github.com/user-attachments/assets/a849cbdc-e127-4911-b255-df8b6879ba48" width="49%" />
 </p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/7977d7e1-75d6-4683-b476-0b0257402a18" width="49%" />
   <img src="https://github.com/user-attachments/assets/5ba5a0cc-1e86-4be0-a89e-ef2edb31c19f" width="49%" />
 </p>
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ea0c8419-4577-46d1-a399-42ae9b2b9741" width="49%" />
+  <img src="https://github.com/user-attachments/assets/d2b48cc6-6ffa-4a23-9b26-b99523091775" width="49%" />
+</p>
 ---
 
 ## In Development — Character Export
