@@ -1,3 +1,4 @@
+
 # UnpackEA Graphics Library — Wii
 
 > Extract, parse, and convert Wii EA Graphics Library (EAGL) 3D models and terrains into modern GLB files.
@@ -106,7 +107,7 @@ Two major advances landed in this version:
 Critical fix for a mesh boundary bug in the GX display list scanner. The old scan window was bounded by `vtx_count * stride + 2048` — an estimate that routinely overran into adjacent meshes' float and byte data. Embedded `0x98` bytes in that neighboring data were misread as GX triangle-strip headers, producing spurious triangles with out-of-range normal indices, visible as **mesh tearing and corrupted faces**.
 
 The fix bounds the scan window by the **next mesh's actual position-array pointer** instead. Descriptors are now also sorted by their pos-array pointer before GX boundaries are computed, ensuring correct ordering regardless of descriptor discovery order. `_parse_mesh` now accepts an explicit `gx_end` argument rather than estimating it from the descriptor's vertex count field.
-
+<img width="3832" height="2045" alt="Screenshot 2026-06-15 222327" src="https://github.com/user-attachments/assets/a329ccad-8fef-4ce5-94fa-3d59e265daa6" />
 </details>
 
 ---
