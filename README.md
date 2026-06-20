@@ -3,7 +3,6 @@
 
 > Extract, parse, and convert Wii EA Graphics Library (EAGL) 3D models and terrains into modern GLB files.
 
-
 ---
 
 ## Overview
