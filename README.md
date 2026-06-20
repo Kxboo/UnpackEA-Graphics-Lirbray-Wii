@@ -59,7 +59,7 @@ This project bridges the gap between legacy console game assets and modern tooli
 <p align="center">
   <img src="https://github.com/user-attachments/assets/7c32c93f-dca1-4447-80a9-31ce72376ced" width="80%" />
 </p>
-<img width="2112" height="1139" alt="Screenshot 2026-06-19 222532" src="https://github.com/user-attachments/assets/ad835815-c3ff-4c4c-8bd2-f6ef54409592" />
+<img width="2087" height="1093" alt="Screenshot 2026-06-19 232759" src="https://github.com/user-attachments/assets/924dabdf-300f-4431-9fb1-06a8d7c16d73" />
 
 Continued refinement of character geometry extraction. Builds on the UV and normal reconstruction improvements from v8, with further accuracy gains in mesh topology and edge cases in the GX display list reader for character-specific descriptors.
 
