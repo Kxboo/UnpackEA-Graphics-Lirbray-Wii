@@ -135,7 +135,7 @@ cd UnpackEA-Graphics-Lirbray-Wii
 - [x] Character model extraction
 - [ ] Code Review and rewrite for performance/edge cases *(in progress)*
 - [ ] Skeletal / bone data support *(in progress)*
-- [ ] Animations
+- [ ] Animations *(in progress)*
 - [ ] Blender Plugin
 - [ ] Batch Processing
 - [ ] Integrated BIG Archive extract
