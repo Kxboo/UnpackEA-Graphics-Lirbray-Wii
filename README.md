@@ -136,6 +136,7 @@ cd UnpackEA-Graphics-Lirbray-Wii
 - [x] Layout C support (track/terrain geometry)
 - [x] Data-driven layout detection (`eagl_layouts.json`)
 - [x] Character model extraction
+- [x] Built-in parser for Compressed .gsh Textures
 - [ ] Code Review and rewrite for performance/edge cases *(in progress)*
 - [ ] Skeletal / bone data support *(in progress)*
 - [ ] Animations *(in progress)*
